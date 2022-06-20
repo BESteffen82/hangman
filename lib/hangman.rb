@@ -8,7 +8,7 @@ class Hangman
 	def initialize
 		@guesses_left = 12
 		@word_bank = WordBank.new("word_bank.txt")
-		@secret_word = @word_bank.secret_word
+		@secret_word = @word_bank.secret_word.chomp
 		@letters_guessed = []	
 	end
 
@@ -32,26 +32,51 @@ class Hangman
 	end
 
 	def secret_word_display
-		secret_word_display = Array.new(@secret_word.size, '-' )
-		secret_word_display.each do |space| 
+		@secret_word_display = Array.new(@secret_word.size, '_' )
+		@secret_word_display.each do |space| 
 			print space.yellow
 			print ' '			
-		end				
+		end					
+	end
+
+	def guess_letter
+		@guess = gets.chomp.downcase		
+		if @letters_guessed.include?(@guess)			 
+			puts "\nLetter has already been chosen. Guess again".red		
+		elsif ('a'..'z').include?(@guess) 
+			@letters_guessed << @guess
+			@guesses_left -= 1
+		else puts "\nInvalid guess".red	
+		end		  			
+	end
+
+	def update_word_display				
+		@secret_word.split(//).each_with_index do |letter, index|
+			if @secret_word[index] == @guess
+				@secret_word_display[index] = @guess		
+			end
+		end		
 	end
 
 	def game_display
 		if @input == '1'
-			puts "\nGuesses left: ".green
-			puts "Letters you have guessed: \n\n"
-			secret_word_display
-			puts "\n\nEnter a letter (or 'save' to save the game): "
-		end
+			loop do
+				puts "\nGuesses left: #{@guesses_left}".green			 			
+				puts "Letters you have guessed: #{@letters_guessed.join(' ')}\n\n"			
+				secret_word_display
+				print "\n\nEnter a letter (or 'save' to save the game): "			
+				guess_letter
+				p @secret_word
+				update_word_display
+				binding.pry					
+			end
+		end				
 	end
 
 	def start
 		print_rules
 		user_input
-		game_display		
+		game_display			
 	end
 end
 
