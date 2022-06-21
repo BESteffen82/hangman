@@ -44,14 +44,14 @@ class Hangman
 			@letters_guessed << @guess
 			@guesses_left -= 1
 		else puts "\nInvalid guess".red	
-		end								  			
+		end										  			
 	end
 
 	def check_winner_loser
 		if @guesses_left == 0
-			puts "You lost! The secret word was '#{@secret_word}'!"
-		elsif @secret_word_display == @secret_word		
-		puts "You guessed the secret word '#{@secret_word}'! You win!"
+			puts "\n\nYou lost! The secret word was '#{@secret_word}'!".red						
+		elsif !@secret_word_display.include?('_')		
+		puts "\n\nYou guessed the secret word '#{@secret_word}'! You win!".yellow
 		end	 
 	end
 
@@ -69,12 +69,11 @@ class Hangman
 				puts "\nGuesses left: #{@guesses_left}".green			 			
 				puts "Letters you have guessed: #{@letters_guessed.join(' ')}\n\n"											
 				secret_word_display														
-				print "\n\nEnter a letter (or 'save' to save the game): "	
+				print "\n\nEnter a letter (or 'save' to save the game): "
+				check_winner_loser	
 				guess_letter
 				update_word_display											
-				p @secret_word
-				check_winner_loser				
-				binding.pry					
+				p @secret_word												
 			end
 		end				
 	end
