@@ -102,6 +102,7 @@ class Hangman
 	def start
 		print_rules
 		user_input
+		load_game if @input == '2'
 		game_display			
 	end
 end
