@@ -32,11 +32,11 @@ class Hangman
 	end
 
 	def secret_word_display
-		@secret_word_display = Array.new(@secret_word.size, '_' )
-		@secret_word_display.each do |space| 
-			print space.yellow
-			print ' '			
-		end					
+		if @letters_guessed.empty?
+			@secret_word_display = ('_ ' * @secret_word.size)
+		else update_word_display
+		end
+		puts "#{@secret_word_display.to_s}".yellow										 				
 	end
 
 	def guess_letter
@@ -47,27 +47,27 @@ class Hangman
 			@letters_guessed << @guess
 			@guesses_left -= 1
 		else puts "\nInvalid guess".red	
-		end		  			
+		end							  			
 	end
 
-	def update_word_display				
+	def update_word_display					
 		@secret_word.split(//).each_with_index do |letter, index|
 			if @secret_word[index] == @guess
-				@secret_word_display[index] = @guess		
-			end
-		end		
+				@secret_word_display[index * 2] = @secret_word[index]
+				return @secret_word_display																
+			end		
+		end						
 	end
 
 	def game_display
 		if @input == '1'
 			loop do
 				puts "\nGuesses left: #{@guesses_left}".green			 			
-				puts "Letters you have guessed: #{@letters_guessed.join(' ')}\n\n"			
-				secret_word_display
-				print "\n\nEnter a letter (or 'save' to save the game): "			
-				guess_letter
-				p @secret_word
-				update_word_display
+				puts "Letters you have guessed: #{@letters_guessed.join(' ')}\n\n"											
+				secret_word_display														
+				print "\n\nEnter a letter (or 'save' to save the game): "	
+				guess_letter															
+				p @secret_word				
 				binding.pry					
 			end
 		end				
