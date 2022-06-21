@@ -49,10 +49,12 @@ class Hangman
 
 	def check_winner_loser
 		if @guesses_left == 0
-			puts "\n\nYou lost! The secret word was '#{@secret_word}'!".red						
+			puts "\n\nYou lost! The secret word was '#{@secret_word}'!".red
+			play_again						
 		elsif !@secret_word_display.include?('_')		
-		puts "\n\nYou guessed the secret word '#{@secret_word}'! You win!".yellow
-		end	 
+			puts "\n\nYou guessed the secret word '#{@secret_word}'! You win!".yellow
+			play_again
+		end			 
 	end
 
 	def update_word_display					
@@ -61,6 +63,21 @@ class Hangman
 				@secret_word_display[index * 2] = @secret_word[index]																				
 			end		
 		end							
+	end
+
+	def play_again
+		puts "\nPlay again?(Y/N)"
+		@play_again_answer = gets.chomp.downcase
+		case @play_again_answer
+		when 'y'
+			initialize
+			start
+		when 'n'
+			puts "\nThanks for playing!".red
+			exit
+		else puts "Invalid response"
+			play_again
+		end
 	end
 
 	def game_display
