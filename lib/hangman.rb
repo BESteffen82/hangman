@@ -9,7 +9,8 @@ class Hangman
 		@guesses_left = 12
 		@word_bank = WordBank.new("word_bank.txt")
 		@secret_word = @word_bank.secret_word.chomp
-		@letters_guessed = []	
+		@letters_guessed = []
+		@secret_word_display = ('_ ' * @secret_word.size)	
 	end
 
 	def print_rules
@@ -31,11 +32,7 @@ class Hangman
 		end		
 	end
 
-	def secret_word_display
-		if @letters_guessed.empty?
-			@secret_word_display = ('_ ' * @secret_word.size)
-		else update_word_display
-		end
+	def secret_word_display					
 		puts "#{@secret_word_display.to_s}".yellow										 				
 	end
 
@@ -47,16 +44,23 @@ class Hangman
 			@letters_guessed << @guess
 			@guesses_left -= 1
 		else puts "\nInvalid guess".red	
-		end							  			
+		end								  			
+	end
+
+	def check_winner_loser
+		if @guesses_left == 0
+			puts "You lost! The secret word was '#{@secret_word}'!"
+		elsif @secret_word_display == @secret_word		
+		puts "You guessed the secret word '#{@secret_word}'! You win!"
+		end	 
 	end
 
 	def update_word_display					
 		@secret_word.split(//).each_with_index do |letter, index|
 			if @secret_word[index] == @guess
-				@secret_word_display[index * 2] = @secret_word[index]
-				return @secret_word_display																
+				@secret_word_display[index * 2] = @secret_word[index]																				
 			end		
-		end						
+		end							
 	end
 
 	def game_display
@@ -66,8 +70,10 @@ class Hangman
 				puts "Letters you have guessed: #{@letters_guessed.join(' ')}\n\n"											
 				secret_word_display														
 				print "\n\nEnter a letter (or 'save' to save the game): "	
-				guess_letter															
-				p @secret_word				
+				guess_letter
+				update_word_display											
+				p @secret_word
+				check_winner_loser				
 				binding.pry					
 			end
 		end				
