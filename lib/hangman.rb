@@ -1,9 +1,12 @@
 require 'colorize'
 require './word_bank'
+require './file_manager'
+require 'yaml'
 require 'pry-byebug'
 
 class Hangman 
- include Colorize 
+ include Colorize
+ include FileManager 
 
 	def initialize
 		@guesses_left = 12
@@ -37,12 +40,13 @@ class Hangman
 	end
 
 	def guess_letter
-		@guess = gets.chomp.downcase		
+		@guess = gets.chomp.downcase
+		save_game if @guess == 'save'		
 		if @letters_guessed.include?(@guess)			 
 			puts "\nLetter has already been chosen. Guess again".red		
 		elsif ('a'..'z').include?(@guess) 
 			@letters_guessed << @guess
-			@guesses_left -= 1
+			@guesses_left -= 1		
 		else puts "\nInvalid guess".red	
 		end										  			
 	end
@@ -78,7 +82,7 @@ class Hangman
 		else puts "Invalid response"
 			play_again
 		end
-	end
+	end	
 
 	def game_display
 		if @input == '1'
