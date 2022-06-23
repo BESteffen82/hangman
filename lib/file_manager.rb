@@ -1,5 +1,4 @@
 module FileManager
-
 	def initialize
 		@game_details = []
 		@save_name = save_name						
