@@ -3,8 +3,7 @@ require './word_bank'
 require './file_manager'
 require 'yaml'
 
-class Hangman 
- include Colorize
+class Hangman  
  include FileManager 
 
 	def initialize
