@@ -2,7 +2,6 @@ require 'colorize'
 require './word_bank'
 require './file_manager'
 require 'yaml'
-require 'pry-byebug'
 
 class Hangman 
  include Colorize
@@ -84,19 +83,17 @@ class Hangman
 		end
 	end	
 
-	def game_display
-		if @input == '1'
-			loop do
-				puts "\nGuesses left: #{@guesses_left}".green			 			
-				puts "Letters you have guessed: #{@letters_guessed.join(' ')}\n\n"											
-				secret_word_display														
-				print "\n\nEnter a letter (or 'save' to save the game): "
-				check_winner_loser	
-				guess_letter
-				update_word_display											
-				p @secret_word												
-			end
-		end				
+	def game_display		
+		loop do
+			puts "\nGuesses left: #{@guesses_left}".green			 			
+			puts "Letters you have guessed: #{@letters_guessed.join(' ')}\n\n"											
+			secret_word_display														
+			print "\n\nEnter a letter (or 'save' to save the game): "
+			check_winner_loser	
+			guess_letter
+			update_word_display											
+			p @secret_word												
+		end						
 	end
 
 	def start

@@ -2,13 +2,17 @@ module FileManager
 
 	def initialize
 		@game_details = []
-		@save_name = save_name				
+		@save_name = save_name						
 	end
 
 	def load_game
 		load_game_choice
 		@loaded_game = YAML.load_file("../saved_games/#{@game_files[@game_choice - 1]}")
-		binding.pry		
+		@guesses_left = @loaded_game[0]
+		@secret_word = @loaded_game[1]
+		@letters_guessed = @loaded_game[2]
+		@secret_word_display = @loaded_game[3]
+		game_display		
 	end
 
 	def load_game_choice
@@ -37,3 +41,4 @@ module FileManager
 		end
 	end
 end
+
